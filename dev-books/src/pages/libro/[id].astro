@@ -1,0 +1,62 @@
+---
+import { getCollection, render } from "astro:content";
+import { SHOW_BUY_BUTTON } from "astro:env/server";
+import AmazonLogo from "../../components/AmazonLogo.astro";
+import Layout from "../../layouts/Layout.astro";
+
+
+/*devuelve un array con todas las rutas */
+
+export async function getStaticPaths (){
+
+  const books = await getCollection('books')
+  return books.map((book)=>({
+    params:{id:book.slug},/*define el parámetro de la ruta */
+    props:{book}/*Pasa la data */
+  }))
+}
+
+const {book} = Astro.props
+const { data, slug }= book
+const {
+  title,
+  author,
+  img,
+  readtime,
+  description,
+  buy,
+}= data
+
+const {Content} = await render(book)
+
+---
+<Layout>
+  <div class="flex gap-12 ">
+    
+    <aside class="flex flex-col items-center gap-4">
+      <a href="/" class="text-xl my-2 self-start text-left opacity-70 hover:underline ">⬅ Volver Atras</a>
+      <img 
+      transition:name={`img-${slug}`}
+      class="rounded w-72 h-auto" src={img} alt={title}>
+
+      {SHOW_BUY_BUTTON && (
+      <a
+        href={buy.spain}
+        title="Comprar libro"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-balance inline-flex gap-2 items-center bg-yellow-400 hover:bg-yellow-500 active:bg-yellow-600 text-black font-bold py-2 px-4 rounded-lg border border-yellow-500 transition duration-200 ease-in-out hover:scale-105 justify-center text-center"
+      >
+        Comprar en Amazon
+        <AmazonLogo/>
+      </a>)}
+    </aside>
+    <main class="max-w-3xl">
+      <h1 class="text-4xl font-bold mb-4">{title + ' 📓'}</h1>
+      <div class="prose prose-invert">
+        <Content/>
+      </div>
+    </main>
+  </div>
+
+</Layout>

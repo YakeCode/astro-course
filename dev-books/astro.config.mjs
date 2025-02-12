@@ -1,7 +1,16 @@
 // @ts-check
 import tailwind from "@astrojs/tailwind";
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 
 export default defineConfig({
   integrations: [tailwind()],
+  env: {
+    schema: {
+      SHOW_BUY_BUTTON: envField.boolean({
+        default: true,
+        context: "server",
+        access: "public",
+      }),
+    },
+  },
 });

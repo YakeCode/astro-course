@@ -1,3 +1,8 @@
+# ClientRouter
+
+lo utilizamos para tener animaciones entre cambios de pagina para esto lo debemos importar en el layout principal
+
+```javascript
 ---
 import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
@@ -20,19 +25,4 @@ const {title } = Astro.props;
   </body>
 </html>
 
-<style>
-  html {
-    font-family: system-ui, sans-serif;
-    background: rgba(0, 0, 0, 0.87);
-    color: white;
-    height: 100%; 
-  }
-
-  body {
-    @apply grid place-content-center p-20;
-  }
-
-  body > div {
-    @apply container;
-  }
-</style>
+```
