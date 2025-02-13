@@ -2,6 +2,7 @@
 import { getCollection, render } from "astro:content";
 import { SHOW_BUY_BUTTON } from "astro:env/server";
 import AmazonLogo from "../../components/AmazonLogo.astro";
+import BookScore from "../../components/BookScore.astro";
 import Layout from "../../layouts/Layout.astro";
 
 
@@ -29,6 +30,8 @@ const {
 
 const {Content} = await render(book)
 
+export const prerender = true
+
 ---
 <Layout>
   <div class="flex gap-12 ">
@@ -38,6 +41,10 @@ const {Content} = await render(book)
       <img 
       transition:name={`img-${slug}`}
       class="rounded w-72 h-auto" src={img} alt={title}>
+
+      <BookScore server:defer id={slug}>
+        <span slot="fallback" class="text-xs opacity-70"> Cargando Puntuación...</span>
+      </BookScore>
 
       {SHOW_BUY_BUTTON && (
       <a
@@ -60,3 +67,4 @@ const {Content} = await render(book)
   </div>
 
 </Layout>
+
